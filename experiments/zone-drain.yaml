@@ -1,0 +1,13 @@
+name: az-loss-eu-west-1a
+description: Drain every node in one AZ for 3 minutes; measure recovery after it returns.
+steady_state:
+  url: http://checkout.example.internal/healthz
+  window: 15
+  min_success_ratio: 0.995
+  max_p95_ms: 600
+fault:
+  type: zone-drain
+  params:
+    zone: eu-west-1a
+hold_seconds: 180
+max_recovery_seconds: 300

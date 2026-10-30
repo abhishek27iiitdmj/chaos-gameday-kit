@@ -1,0 +1,15 @@
+name: latency-500ms-payments
+description: Add 500ms latency to payments pods for 2 minutes (requires Chaos Mesh).
+steady_state:
+  url: http://checkout.example.internal/healthz
+  window: 10
+  max_p95_ms: 400
+fault:
+  type: network-latency
+  params:
+    namespace: shop
+    selector: {app: payments}
+    latency_ms: 500
+    jitter_ms: 50
+hold_seconds: 120
+max_recovery_seconds: 120

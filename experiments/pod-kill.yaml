@@ -1,0 +1,15 @@
+name: pod-kill-checkout
+description: Kill one checkout pod and verify the service self-heals within 60s.
+steady_state:
+  url: http://checkout.example.internal/healthz   # replace with your service
+  window: 10
+  min_success_ratio: 0.99
+  max_p95_ms: 400
+fault:
+  type: pod-kill
+  params:
+    namespace: shop
+    selector: app=checkout
+    count: 1
+hold_seconds: 0
+max_recovery_seconds: 60
