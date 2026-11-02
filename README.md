@@ -44,9 +44,15 @@ Reports are written to `reports/` as Markdown and JSON. Exit codes:
 
 ## Status
 
-The runner logic and the pod-kill / network-latency command construction are
-unit-tested with a fake clock, probe and kubectl. The faults have **not yet
-been run against a real cluster**; validate on kind or staging first.
+- **Automated (26 tests, run in CI):** runner logic with a fake clock, the real
+  HTTP probe against a local server, report writing, spec validation, and the
+  CLI end to end with a fake `kubectl`.
+- **Manually verified on a local 3-node kind cluster** (2 zones, Chaos Mesh 2.7):
+  `pod-kill`, `zone-drain` and `network-latency` all ran and produced reports.
+  Kill-all-pods gave a real outage (1 of 12 probes failed, RTO 2.0s); 800ms of
+  injected latency dropped availability to 31% while the fault was active.
+- **Not yet automated:** the kind run is not part of CI. Validate on kind or
+  staging before using it anywhere important.
 
 ## Layout
 
@@ -71,7 +77,7 @@ kubeconfig already on your machine.
 - Prometheus-based steady state (SLO burn rate)
 - Write-probe to estimate RPO for stateful services
 - Scheduled GameDay workflow with report upload
-- End-to-end test on a kind cluster in CI
+- Automate the kind-cluster run as a CI job
 
 Independent reference implementation; it contains no employer code or data.
 

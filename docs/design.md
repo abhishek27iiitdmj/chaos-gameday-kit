@@ -26,7 +26,8 @@ baseline window healthy? --no--> ABORTED (never inject into a sick system)
 
 ## Safety
 - Rollback runs in a `finally` path, even when injection fails half way.
-- The CLI asks for confirmation and names the kubectl context it will use.
+- The CLI asks for confirmation before touching the current kubectl context
+  (`--yes` skips the prompt for CI).
 - The kit holds no credentials; it relies on the operator's kubeconfig.
 - Faults are scoped by namespace, label selector, or zone, never cluster-wide.
 
@@ -38,4 +39,4 @@ without a cluster or real waiting.
 - One HTTP endpoint is the steady-state signal; it does not read Prometheus yet.
 - RPO is not measured (needs a data-write probe; see roadmap).
 - `zone-drain` simulates AZ loss at the scheduler level, not at the network level.
-- Not yet exercised against a real cluster (unit tests use fakes).
+- The kind-cluster check was done by hand; it is not yet a CI job.
